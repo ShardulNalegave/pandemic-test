@@ -100,7 +100,7 @@ export class Human implements IHuman {
 	 */
 	public checkForRecoveryOrDeath(): void {
 		let res: number = Math.random()
-		if (res <= this.deathPercentage) { this.dead = true }
+		if (res <= this.deathPercentage) { this.infected = false; this.dead = true }
 		else if (res <= this.recoveryPercentage) this.infected = false
 	}
 
