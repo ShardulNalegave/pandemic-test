@@ -20,10 +20,24 @@ export class Simulator {
 		 */
 
 		// Setup event
-		this.sketch.setup = () => {
-			this.sketch.createCanvas(600, 600);
-			this.sketch.background(0);
-		}
+		this.sketch.setup = () => this.setup()
+
+		// Draw loop event
+		this.sketch.draw = () => this.draw()
+	}
+
+	/**
+	 * Sketch setup function
+	 */
+	public setup(): void {
+		this.sketch.createCanvas(600, 600);
+	}
+
+	/**
+	 * Draw loop function
+	 */
+	public draw(): void {
+		this.sketch.background(0);
 	}
 
 }
