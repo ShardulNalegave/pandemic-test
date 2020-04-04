@@ -9,6 +9,8 @@ import { Human } from './Human'
 export interface SimulatorOptions {
 	// Number of frames for a single day
 	dayLength: number
+	// Infected person infection radius
+	infectionRadius: number
 }
 
 // Simulator class
@@ -62,13 +64,13 @@ export class Simulator {
 			for (let i = 0; i < this.humans.length; i++) {
 				const human: Human = this.humans[i];
 				human.move(this.sketch)
-				human.draw(this.sketch)
+				human.draw(this.sketch, this.config.infectionRadius)
 			}
 		} else {
 			this._dayFinished += 1
 			for (let i = 0; i < this.humans.length; i++) {
 				const human: Human = this.humans[i];
-				human.draw(this.sketch)
+				human.draw(this.sketch, this.config.infectionRadius)
 			}
 		}
 	}
