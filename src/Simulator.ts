@@ -71,10 +71,12 @@ export class Simulator {
 			this._dayFinished = 0
 			for (let i = 0; i < this.humans.length; i++) {
 				const human: Human = this.humans[i];
-				if (!human.infected) {
+				if (!human.infected && !human.dead) {
 					human.checkForInfection(this.humans, this.config.infectionProbability || 0.2)
+				} else {
+					human.checkForRecoveryOrDeath()
 				}
-				human.move(this.sketch)
+				if (!human.dead) human.move(this.sketch)
 				human.draw(this.sketch)
 			}
 		} else {

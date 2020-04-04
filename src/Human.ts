@@ -6,16 +6,23 @@ import p5 from 'p5'
 export interface IHuman {
 	position: p5.Vector
 	infected: boolean
+	dead: boolean
+	recoveryPercentage: number
+	deathPercentage: number
 	radius: number
 	draw(sketch: p5, radius: number): void
 	move(sketch: p5): void
 	checkForInfection(humans: Human[], probability: number): void
+	checkForRecoveryOrDeath(): void
 }
 
 // Human class
 export class Human implements IHuman {
 
 	public infected: boolean
+	public dead: boolean = false
+	public recoveryPercentage: number = 0.01
+	public deathPercentage: number = 0.01
 	public position: p5.Vector
 	public radius: number = 50
 
@@ -36,6 +43,8 @@ export class Human implements IHuman {
 		sketch.noStroke()
 		if (this.infected) {
 			sketch.fill(150, 25, 25)
+		} else if (this.dead) {
+			sketch.fill(50)
 		} else {
 			sketch.fill(255)
 		}
@@ -77,13 +86,22 @@ export class Human implements IHuman {
 		for (let i = 0; i < humans.length; i++) {
 			const human = humans[i];
 			if (human === this) continue
-			if (p5.Vector.sub(human.position, this.position).mag() <= this.radius) {
+			if (!human.dead) if (human.infected) if (p5.Vector.sub(human.position, this.position).mag() <= this.radius) {
 				if (Math.random() < probability) {
 					this.infected = true
 					break
 				}
 			}
 		}
+	}
+
+	/**
+	 * Checks if the person is recovered or is dead
+	 */
+	public checkForRecoveryOrDeath(): void {
+		let res: number = Math.random()
+		if (res <= this.deathPercentage) { this.dead = true }
+		else if (res <= this.recoveryPercentage) this.infected = false
 	}
 
 }

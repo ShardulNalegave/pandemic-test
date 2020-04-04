@@ -8,28 +8,30 @@ import { Human } from './Human'
 function main(sketch: p5) {
 	const sim: Simulator = new Simulator(sketch, {
 		dayLength: 10,
-		infectionProbability: 0.01
+		infectionProbability: 0.2,
+		infectionRadius: 20
 	})
 
-	for (let i = 0; i < 19; i++) {
+	for (let i = 0; i < 95; i++) {
 		const human: Human = new Human(
 			sketch.createVector(
 				sketch.random(0, 600),
 				sketch.random(0, 600)
 			)
 		)
-
 		sim.addHuman(human)
 	}
 
-	const infectedHuman: Human = new Human(
-		sketch.createVector(
-			sketch.random(0, 600),
-			sketch.random(0, 600)
-		),
-		true
-	)
-	sim.addHuman(infectedHuman)
+	for (let i = 0; i < 5; i++) {
+		const human: Human = new Human(
+			sketch.createVector(
+				sketch.random(0, 600),
+				sketch.random(0, 600)
+			),
+			true
+		)
+		sim.addHuman(human)
+	}
 }
 
 new p5(main)
