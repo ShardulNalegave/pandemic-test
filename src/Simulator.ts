@@ -63,6 +63,9 @@ export class Simulator {
 			this._dayFinished = 0
 			for (let i = 0; i < this.humans.length; i++) {
 				const human: Human = this.humans[i];
+				if (!human.infected) {
+					human.checkForInfection(this.humans)
+				}
 				human.move(this.sketch)
 				human.draw(this.sketch)
 			}
