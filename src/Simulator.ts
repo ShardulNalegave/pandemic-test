@@ -11,6 +11,8 @@ export interface SimulatorOptions {
 	dayLength: number
 	// Infected person infection radius
 	infectionRadius?: number
+	// Probability of getting infected if near a infected person
+	infectionProbability?: number
 }
 
 // Simulator class
@@ -34,6 +36,12 @@ export class Simulator {
 	constructor(sketch: p5, options: SimulatorOptions) {
 		this.sketch = sketch
 		this.config = options
+
+		if (this.config.infectionProbability) {
+			if (this.config.infectionProbability < 0 || this.config.infectionProbability > 1) {
+				throw new Error("Infection Probability should be in the range on 0 to 1")
+			}
+		}
 
 		/**
 		 * P5 sketch events
@@ -64,7 +72,7 @@ export class Simulator {
 			for (let i = 0; i < this.humans.length; i++) {
 				const human: Human = this.humans[i];
 				if (!human.infected) {
-					human.checkForInfection(this.humans)
+					human.checkForInfection(this.humans, this.config.infectionProbability || 0.2)
 				}
 				human.move(this.sketch)
 				human.draw(this.sketch)

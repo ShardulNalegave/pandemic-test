@@ -9,7 +9,7 @@ export interface IHuman {
 	radius: number
 	draw(sketch: p5, radius: number): void
 	move(sketch: p5): void
-	checkForInfection(humans: Human[]): void
+	checkForInfection(humans: Human[], probability: number): void
 }
 
 // Human class
@@ -73,13 +73,15 @@ export class Human implements IHuman {
 	 * Check for infection
 	 * @param humans The humans in that area
 	 */
-	public checkForInfection(humans: Human[]): void {
+	public checkForInfection(humans: Human[], probability: number): void {
 		for (let i = 0; i < humans.length; i++) {
 			const human = humans[i];
 			if (human === this) continue
 			if (p5.Vector.sub(human.position, this.position).mag() <= this.radius) {
-				this.infected = true
-				break
+				if (Math.random() < probability) {
+					this.infected = true
+					break
+				}
 			}
 		}
 	}

@@ -7,7 +7,8 @@ import { Human } from './Human'
 // Main function
 function main(sketch: p5) {
 	const sim: Simulator = new Simulator(sketch, {
-		dayLength: 10
+		dayLength: 10,
+		infectionProbability: 0.01
 	})
 
 	for (let i = 0; i < 19; i++) {
