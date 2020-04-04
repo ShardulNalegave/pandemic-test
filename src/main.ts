@@ -7,11 +7,10 @@ import { Human } from './Human'
 // Main function
 function main(sketch: p5) {
 	const sim: Simulator = new Simulator(sketch, {
-		dayLength: 10,
-		infectionRadius: 50
+		dayLength: 10
 	})
 
-	for (let i = 0; i < 9; i++) {
+	for (let i = 0; i < 19; i++) {
 		const human: Human = new Human(
 			sketch.createVector(
 				sketch.random(0, 600),

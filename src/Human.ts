@@ -6,8 +6,10 @@ import p5 from 'p5'
 export interface IHuman {
 	position: p5.Vector
 	infected: boolean
+	radius: number
 	draw(sketch: p5, radius: number): void
 	move(sketch: p5): void
+	checkForInfection(humans: Human[]): void
 }
 
 // Human class
@@ -15,6 +17,7 @@ export class Human implements IHuman {
 
 	public infected: boolean
 	public position: p5.Vector
+	public radius: number = 50
 
 	/**
 	 * Constructs a Human instance
@@ -29,7 +32,7 @@ export class Human implements IHuman {
 	 * Draws the Human
 	 * @param sketch The sketch to draw on
 	 */
-	public draw(sketch: p5, radius: number): void {
+	public draw(sketch: p5): void {
 		sketch.noStroke()
 		if (this.infected) {
 			sketch.fill(150, 25, 25)
@@ -41,7 +44,7 @@ export class Human implements IHuman {
 		if (this.infected) {
 			sketch.stroke(200, 50, 50)
 			sketch.noFill()
-			sketch.ellipse(this.position.x, this.position.y, radius, radius)
+			sketch.ellipse(this.position.x, this.position.y, this.radius)
 		}
 	}
 
@@ -65,5 +68,11 @@ export class Human implements IHuman {
 
 		this.position.add(sketch.createVector(x_change, y_change))
 	}
+
+	/**
+	 * Check for infection
+	 * @param humans The humans in that area
+	 */
+	public checkForInfection(humans: Human[]): void {}
 
 }
