@@ -26,7 +26,9 @@ export class Human implements IHuman {
 	 * @param sketch The sketch to draw on
 	 */
 	public draw(sketch: p5): void {
-		//
+		sketch.stroke(0)
+		sketch.fill(255)
+		sketch.ellipse(this.position.x, this.position.y, 10, 10)
 	}
 
 }
