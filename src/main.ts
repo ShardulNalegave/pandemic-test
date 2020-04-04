@@ -6,10 +6,19 @@ import { Human } from './Human'
 
 // Main function
 function main(sketch: p5) {
+
+	let p: HTMLParagraphElement = <HTMLParagraphElement> document.querySelector("p#daysCounter")
+
 	const sim: Simulator = new Simulator(sketch, {
-		dayLength: 10,
+		dayLength: 60,
 		infectionProbability: 0.2,
-		infectionRadius: 20
+		infectionRadius: 20,
+
+		events: {
+			draw: (sim: Simulator) => {
+				p.innerHTML = `${sim.daysPassed} days`
+			}
+		}
 	})
 
 	for (let i = 0; i < 95; i++) {

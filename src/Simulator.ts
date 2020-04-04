@@ -17,6 +17,11 @@ export interface SimulatorOptions {
 	daysForRecovery?: number
 	// Probability of dying
 	deathProbability?: number
+
+	// Sketch events
+	events?: {
+		draw?(simulator: Simulator): void
+	}
 }
 
 // Simulator class
@@ -29,7 +34,7 @@ export class Simulator {
 	// Config for simulator
 	private config: SimulatorOptions
 	// No of days passed
-	private _days: number = 0
+	public daysPassed: number = 0
 	// Frame counter to determine frame length
 	private _dayFinished: number = 0
 
@@ -60,7 +65,12 @@ export class Simulator {
 		this.sketch.setup = () => this.setup()
 
 		// Draw loop event
-		this.sketch.draw = () => this.draw()
+		this.sketch.draw = () => {
+			this.draw()
+			if (this.config.events?.draw) {
+				this.config.events.draw(this)
+			}
+		}
 	}
 
 	/**
@@ -76,7 +86,7 @@ export class Simulator {
 	public draw(): void {
 		this.sketch.background(0);
 		if (this._dayFinished == this.config.dayLength) {
-			this._days += 1
+			this.daysPassed += 1
 			this._dayFinished = 0
 			for (let i = 0; i < this.humans.length; i++) {
 				const human: Human = this.humans[i];
