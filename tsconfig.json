@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"removeComments": true,
+		"strict": true,
+		"alwaysStrict": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"declaration": true,
+		"declarationDir": "./dist/@types",
+
+		// Output config
+		"outDir": "./dist",
+
+		// Types to be included
+		"types": [
+			"node"
+		]
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/*.ts",
+		"test/*.ts",
+		"test/**/*.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}
