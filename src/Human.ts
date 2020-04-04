@@ -6,23 +6,21 @@ import p5 from 'p5'
 export interface IHuman {
 	position: p5.Vector
 	infected: boolean
+	daysSinceInfection: number
 	dead: boolean
-	recoveryPercentage: number
-	deathPercentage: number
 	radius: number
 	draw(sketch: p5, radius: number): void
 	move(sketch: p5): void
 	checkForInfection(humans: Human[], probability: number): void
-	checkForRecoveryOrDeath(): void
+	checkForRecoveryOrDeath(recoveryDays: number, deathPercentage: number): void
 }
 
 // Human class
 export class Human implements IHuman {
 
 	public infected: boolean
+	public daysSinceInfection: number = 0
 	public dead: boolean = false
-	public recoveryPercentage: number = 0.01
-	public deathPercentage: number = 0.01
 	public position: p5.Vector
 	public radius: number = 50
 
@@ -98,10 +96,16 @@ export class Human implements IHuman {
 	/**
 	 * Checks if the person is recovered or is dead
 	 */
-	public checkForRecoveryOrDeath(): void {
+	public checkForRecoveryOrDeath(recoveryDays: number, deathPercentage: number): void {
 		let res: number = Math.random()
-		if (res <= this.deathPercentage) { this.infected = false; this.dead = true }
-		else if (res <= this.recoveryPercentage) this.infected = false
+		if (res < deathPercentage) { this.infected = true; this.dead = false }
+		else if (recoveryDays == this.daysSinceInfection) this.infected = false
+	}
+
+	public newDay(): void {
+		if (this.infected) {
+			this.daysSinceInfection += 1
+		}
 	}
 
 }
