@@ -6,7 +6,9 @@ import { Human } from './Human'
 
 // Main function
 function main(sketch: p5) {
-	const sim: Simulator = new Simulator(sketch)
+	const sim: Simulator = new Simulator(sketch, {
+		dayLength: 5
+	})
 
 	for (let i = 0; i < 10; i++) {
 		const human: Human = new Human(
