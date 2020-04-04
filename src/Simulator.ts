@@ -32,6 +32,7 @@ export class Simulator {
 	 * Sketch setup function
 	 */
 	public setup(): void {
+		this.sketch.frameRate(5)
 		this.sketch.createCanvas(600, 600);
 	}
 

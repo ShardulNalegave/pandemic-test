@@ -5,7 +5,6 @@ import p5 from 'p5'
 // Interface for Human class
 export interface IHuman {
 	position: p5.Vector
-	velocity: p5.Vector | null
 	draw(sketch: p5): void
 	move(sketch: p5): void
 }
@@ -14,7 +13,6 @@ export interface IHuman {
 export class Human implements IHuman {
 
 	public position: p5.Vector
-	public velocity: p5.Vector | null = null
 
 	/**
 	 * Constructs a Human instance
@@ -39,12 +37,21 @@ export class Human implements IHuman {
 	 * Move the human
 	 */
 	public move(sketch: p5): void {
-		let to: p5.Vector = sketch.createVector(
-			sketch.random(0, 600),
-			sketch.random(0, 600)
-		)
-		this.velocity = p5.Vector.sub(to, this.position).normalize()
-		this.position.add(this.velocity)
+		let x_change: number = sketch.random(-20, 20)
+		let y_change: number = sketch.random(-20, 20)
+		if (this.position.x + x_change < 0) {
+			x_change = -x_change
+		} else if (this.position.x + x_change > 600) {
+			x_change = -x_change
+		}
+
+		if (this.position.y + y_change < 0) {
+			y_change = -y_change
+		} else if (this.position.y + y_change > 600) {
+			y_change = -y_change
+		}
+
+		this.position.add(sketch.createVector(x_change, y_change))
 	}
 
 }
