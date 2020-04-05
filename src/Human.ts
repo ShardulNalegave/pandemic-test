@@ -13,7 +13,7 @@ export interface IHuman {
 	move(sketch: p5): void
 	checkForInfection(humans: Human[], probability: number): void
 	checkForRecoveryOrDeath(recoveryDays: number, deathPercentage: number): void
-	newDay(sketch: p5, dayLength: number): void
+	newDay(sketch: p5, dayLength: number, movementRadius: number): void
 }
 
 // Human class
@@ -98,9 +98,9 @@ export class Human implements IHuman {
 	 * @param sketch The sketch to render on
 	 * @param dayLength The length of a single day in frames
 	 */
-	public newDay(sketch: p5, dayLength: number): void {
-		let x_change: number = sketch.random(-20, 20)
-		let y_change: number = sketch.random(-20, 20)
+	public newDay(sketch: p5, dayLength: number, movementRadius: number): void {
+		let x_change: number = sketch.random(-movementRadius/2, movementRadius/2)
+		let y_change: number = sketch.random(-movementRadius/2, movementRadius/2)
 		if (this.position.x + x_change < 0) {
 			x_change = -x_change
 		} else if (this.position.x + x_change > 600) { x_change = -x_change }

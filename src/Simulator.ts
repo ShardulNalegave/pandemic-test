@@ -17,6 +17,8 @@ export interface SimulatorOptions {
 	daysForRecovery?: number
 	// Probability of dying
 	deathProbability?: number
+	// The movement radius of humans
+	humanMovementRadius?: number
 
 	// Sketch events
 	events?: {
@@ -50,13 +52,21 @@ export class Simulator {
 			if (this.config.infectionProbability < 0 || this.config.infectionProbability > 1) {
 				throw new Error("Infection Probability should be in the range on 0 to 1")
 			} else {
-				// So that effects are normalized. 0-1 is very small
-				this.config.infectionProbability = this.config.infectionProbability / 10
+				this.config.infectionProbability = 0
 			}
 		}
 		if (this.config.deathProbability) {
 			if (this.config.deathProbability < 0 || this.config.deathProbability > 1) {
 				throw new Error("Death Probability should be in the range on 0 to 1")
+			} else {
+				this.config.deathProbability = 0
+			}
+		}
+		if (this.config.humanMovementRadius) {
+			if (this.config.humanMovementRadius < 0 || this.config.humanMovementRadius > 1) {
+				throw new Error("Human Movement Radius should be in the range on 0 to 1")
+			} else {
+				this.config.humanMovementRadius = 50
 			}
 		}
 
@@ -93,9 +103,11 @@ export class Simulator {
 			this._dayFinished = 0
 			for (let i = 0; i < this.humans.length; i++) {
 				const human: Human = this.humans[i];
-				human.newDay(this.sketch, this.config.dayLength)
-				if (human.infected) {
-					human.checkForRecoveryOrDeath(this.config.daysForRecovery || 15, this.config.deathProbability || 0.01)
+				human.newDay(this.sketch, this.config.dayLength, <number> this.config.humanMovementRadius)
+				if (!human.infected && !human.dead) {
+					human.checkForInfection(this.humans, <number> this.config.infectionProbability)
+				} else if (human.infected && !human.dead) {
+					human.checkForRecoveryOrDeath(this.config.daysForRecovery || 15, <number> this.config.deathProbability)
 				}
 				human.draw(this.sketch)
 			}
@@ -103,9 +115,6 @@ export class Simulator {
 			this._dayFinished += 1
 			for (let i = 0; i < this.humans.length; i++) {
 				const human: Human = this.humans[i];
-				if (!human.infected && !human.dead) {
-					human.checkForInfection(this.humans, this.config.infectionProbability || 0.02)
-				}
 				if (!human.dead) human.move(this.sketch)
 				human.draw(this.sketch)
 			}
