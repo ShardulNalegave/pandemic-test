@@ -10,15 +10,15 @@ export interface SimulatorOptions {
 	// Number of frames for a single day
 	dayLength: number
 	// Infected person infection radius
-	infectionRadius?: number
+	infectionRadius: number
 	// Probability of getting infected if near a infected person
-	infectionProbability?: number
+	infectionProbability: number
 	// Days for Recovery
-	daysForRecovery?: number
+	daysForRecovery: number
 	// Probability of dying
-	deathProbability?: number
+	deathProbability: number
 	// The movement radius of humans
-	humanMovementRadius?: number
+	humanMovementRadius: number
 
 	// Sketch events
 	events?: {
@@ -47,28 +47,6 @@ export class Simulator {
 	constructor(sketch: p5, options: SimulatorOptions) {
 		this.sketch = sketch
 		this.config = options
-
-		if (this.config.infectionProbability) {
-			if (this.config.infectionProbability < 0 || this.config.infectionProbability > 1) {
-				throw new Error("Infection Probability should be in the range on 0 to 1")
-			} else {
-				this.config.infectionProbability = 0
-			}
-		}
-		if (this.config.deathProbability) {
-			if (this.config.deathProbability < 0 || this.config.deathProbability > 1) {
-				throw new Error("Death Probability should be in the range on 0 to 1")
-			} else {
-				this.config.deathProbability = 0
-			}
-		}
-		if (this.config.humanMovementRadius) {
-			if (this.config.humanMovementRadius < 0 || this.config.humanMovementRadius > 1) {
-				throw new Error("Human Movement Radius should be in the range on 0 to 1")
-			} else {
-				this.config.humanMovementRadius = 50
-			}
-		}
 
 		/**
 		 * P5 sketch events

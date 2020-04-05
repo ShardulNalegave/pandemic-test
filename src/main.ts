@@ -11,10 +11,11 @@ function main(sketch: p5) {
 
 	const sim: Simulator = new Simulator(sketch, {
 		dayLength: 60,
-		infectionProbability: 1,
-		infectionRadius: 20,
-		deathProbability: 0.0,
-		daysForRecovery: 100,
+		infectionProbability: 0.4,
+		infectionRadius: 25,
+		deathProbability: 0.1,
+		daysForRecovery: 15,
+		humanMovementRadius: 50,
 
 		events: {
 			draw: (sim: Simulator) => {
