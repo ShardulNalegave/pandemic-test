@@ -94,7 +94,6 @@ export class Simulator {
 				if (human.infected) {
 					human.checkForRecoveryOrDeath(this.config.daysForRecovery || 15, this.config.deathProbability || 0.01)
 				}
-				if (!human.dead) human.move(this.sketch)
 				human.draw(this.sketch)
 			}
 		} else {
@@ -103,7 +102,8 @@ export class Simulator {
 				const human: Human = this.humans[i];
 				if (!human.infected && !human.dead) {
 					human.checkForInfection(this.humans, this.config.infectionProbability || 0.2)
-				} 
+				}
+				if (!human.dead) human.move(this.sketch) 
 				human.draw(this.sketch)
 			}
 		}

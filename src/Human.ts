@@ -113,7 +113,10 @@ export class Human implements IHuman {
 			sketch.random(0, 600),
 			sketch.random(0, 600)
 		).sub(this.position)
-		this._movementPerFrame = this._to.normalize().setMag(this._to.mag() / dayLength)
+		this._movementPerFrame = this._to.normalize().setMag(dayLength)
+		// console.log(this._to.mag())
+		// console.log(this._movementPerFrame.mag())
+		// console.log(this._to.mag() / dayLength)
 		if (this.infected) {
 			this.daysSinceInfection += 1
 		}
