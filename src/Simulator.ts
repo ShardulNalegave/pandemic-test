@@ -106,7 +106,7 @@ export class Simulator {
 				if (!human.infected && !human.dead) {
 					human.checkForInfection(this.humans, this.config.infectionProbability || 0.02)
 				}
-				if (!human.dead) human.move(this.sketch) 
+				if (!human.dead) human.move(this.sketch)
 				human.draw(this.sketch)
 			}
 		}
