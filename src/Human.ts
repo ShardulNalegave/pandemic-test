@@ -109,11 +109,11 @@ export class Human implements IHuman {
 	}
 
 	public newDay(sketch: p5, dayLength: number): void {
-		this._to = sketch.createVector(
-			sketch.random(0, 600),
-			sketch.random(0, 600)
-		).sub(this.position)
-		this._movementPerFrame = this._to.normalize().setMag(dayLength)
+		this._to = p5.Vector.add(this.position, sketch.createVector(
+			sketch.random(-20, 20),
+			sketch.random(-20, 20)
+		)).sub(this.position)
+		this._movementPerFrame = this._to.normalize().mult(0.5)
 		// console.log(this._to.mag())
 		// console.log(this._movementPerFrame.mag())
 		// console.log(this._to.mag() / dayLength)
