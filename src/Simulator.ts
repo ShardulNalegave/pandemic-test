@@ -90,7 +90,7 @@ export class Simulator {
 			this._dayFinished = 0
 			for (let i = 0; i < this.humans.length; i++) {
 				const human: Human = this.humans[i];
-				human.newDay(this.sketch)
+				human.newDay(this.sketch, this.config.dayLength)
 				if (human.infected) {
 					human.checkForRecoveryOrDeath(this.config.daysForRecovery || 15, this.config.deathProbability || 0.01)
 				}

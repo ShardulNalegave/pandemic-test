@@ -13,7 +13,7 @@ export interface IHuman {
 	move(sketch: p5): void
 	checkForInfection(humans: Human[], probability: number): void
 	checkForRecoveryOrDeath(recoveryDays: number, deathPercentage: number): void
-	newDay(sketch: p5): void
+	newDay(sketch: p5, dayLength: number): void
 }
 
 // Human class
@@ -25,6 +25,7 @@ export class Human implements IHuman {
 	public position: p5.Vector
 	public radius: number = 50
 	private _to: p5.Vector | null = null
+	private _movementPerFrame: p5.Vector | null = null
 
 	/**
 	 * Constructs a Human instance
@@ -61,21 +62,24 @@ export class Human implements IHuman {
 	 * Move the human
 	 */
 	public move(sketch: p5): void {
-		let x_change: number = sketch.random(-20, 20)
-		let y_change: number = sketch.random(-20, 20)
-		if (this.position.x + x_change < 0) {
-			x_change = -x_change
-		} else if (this.position.x + x_change > 600) {
-			x_change = -x_change
-		}
+		// let x_change: number = sketch.random(-20, 20)
+		// let y_change: number = sketch.random(-20, 20)
+		// if (this.position.x + x_change < 0) {
+		// 	x_change = -x_change
+		// } else if (this.position.x + x_change > 600) {
+		// 	x_change = -x_change
+		// }
 
-		if (this.position.y + y_change < 0) {
-			y_change = -y_change
-		} else if (this.position.y + y_change > 600) {
-			y_change = -y_change
-		}
+		// if (this.position.y + y_change < 0) {
+		// 	y_change = -y_change
+		// } else if (this.position.y + y_change > 600) {
+		// 	y_change = -y_change
+		// }
 
-		this.position.add(sketch.createVector(x_change, y_change))
+		// this.position.add(sketch.createVector(x_change, y_change))
+		if (this._movementPerFrame) {
+			this.position.add(this._movementPerFrame)
+		}
 	}
 
 	/**
@@ -104,11 +108,12 @@ export class Human implements IHuman {
 		else if (recoveryDays == this.daysSinceInfection) this.infected = false
 	}
 
-	public newDay(sketch: p5): void {
+	public newDay(sketch: p5, dayLength: number): void {
 		this._to = sketch.createVector(
 			sketch.random(0, 600),
 			sketch.random(0, 600)
-		)
+		).sub(this.position)
+		this._movementPerFrame = this._to.normalize().setMag(this._to.mag() / dayLength)
 		if (this.infected) {
 			this.daysSinceInfection += 1
 		}
