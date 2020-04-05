@@ -90,10 +90,8 @@ export class Simulator {
 			this._dayFinished = 0
 			for (let i = 0; i < this.humans.length; i++) {
 				const human: Human = this.humans[i];
-				human.newDay()
-				if (!human.infected && !human.dead) {
-					human.checkForInfection(this.humans, this.config.infectionProbability || 0.2)
-				} else {
+				human.newDay(this.sketch)
+				if (human.infected) {
 					human.checkForRecoveryOrDeath(this.config.daysForRecovery || 15, this.config.deathProbability || 0.01)
 				}
 				if (!human.dead) human.move(this.sketch)
@@ -103,6 +101,9 @@ export class Simulator {
 			this._dayFinished += 1
 			for (let i = 0; i < this.humans.length; i++) {
 				const human: Human = this.humans[i];
+				if (!human.infected && !human.dead) {
+					human.checkForInfection(this.humans, this.config.infectionProbability || 0.2)
+				} 
 				human.draw(this.sketch)
 			}
 		}

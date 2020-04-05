@@ -13,6 +13,7 @@ export interface IHuman {
 	move(sketch: p5): void
 	checkForInfection(humans: Human[], probability: number): void
 	checkForRecoveryOrDeath(recoveryDays: number, deathPercentage: number): void
+	newDay(sketch: p5): void
 }
 
 // Human class
@@ -23,6 +24,7 @@ export class Human implements IHuman {
 	public dead: boolean = false
 	public position: p5.Vector
 	public radius: number = 50
+	private _to: p5.Vector | null = null
 
 	/**
 	 * Constructs a Human instance
@@ -102,7 +104,11 @@ export class Human implements IHuman {
 		else if (recoveryDays == this.daysSinceInfection) this.infected = false
 	}
 
-	public newDay(): void {
+	public newDay(sketch: p5): void {
+		this._to = sketch.createVector(
+			sketch.random(0, 600),
+			sketch.random(0, 600)
+		)
 		if (this.infected) {
 			this.daysSinceInfection += 1
 		}
