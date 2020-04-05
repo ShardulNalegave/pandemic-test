@@ -11,7 +11,7 @@ function main(sketch: p5) {
 
 	const sim: Simulator = new Simulator(sketch, {
 		dayLength: 60,
-		infectionProbability: 0.2,
+		infectionProbability: 0.1,
 		infectionRadius: 20,
 
 		events: {
